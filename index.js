@@ -35,7 +35,24 @@ async function run() {
 
         const brandCollection = client.db('brandDb').collection('brand');
         const productCollection = client.db('brandDb').collection('product');
+        const myCartCollection = client.db('brandDb').collection('myCart')
 
+
+        // Read My Cart data
+        app.get('/myCart', async (req, res) => {
+            const cursor = myCartCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
+
+        //  Create my cart data
+        app.post('/myCart', async (req, res) => {
+            const newCart = req.body;
+            console.log(newCart);
+            const result = await myCartCollection.insertOne(newCart);
+            res.send(result);
+        })
 
 
         // Read Brand data
